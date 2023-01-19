@@ -9,8 +9,21 @@ import { useRouter } from "next/router";
 function ProductDetails({ product }: any) {
   const router = useRouter();
   const { increaseCartQuantity, cartItems } = useShoppingCart();
+  const [blockAddToCart, setBlockAddToCart] = React.useState(false);
 
   const itemId = router.query.productId as string;
+
+  function handleAddToCart(product: any) {
+    if(cartItems.filter(item => 
+      item._id == product._id).length > 0) {
+        setBlockAddToCart(true);
+        return;
+      }
+      else {
+        increaseCartQuantity(product)
+        setBlockAddToCart(true);
+      }
+  }
 
   // console.log(cartItems);
 
@@ -41,10 +54,10 @@ function ProductDetails({ product }: any) {
         </div>
 
         <button
-          onClick={() => increaseCartQuantity(product)}
-          className={styles.addCart}
+          onClick={() => handleAddToCart(product)}
+          className={`${!blockAddToCart ? styles.addCart : `${styles.addCart} ${styles.blockCart}`}`}
         >
-          Add To Cart
+          {!blockAddToCart ? "Add To Cart" : "In Cart"}
         </button>
       </div>
     </div>

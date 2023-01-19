@@ -49,6 +49,11 @@
   opacity: 0.75;
 }
 
+
+.blockCart {
+  background-color: red !important;
+}
+
 .cart_options {
   display: flex;
   margin-top: 1rem;
